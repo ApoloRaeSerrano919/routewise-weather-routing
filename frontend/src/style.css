@@ -1,0 +1,1251 @@
+
+/* ============================================================
+   ROUTEWISE — FRONTEND DESIGN SYSTEM
+   ============================================================
+   01. Design tokens
+   02. Global styles
+   03. Header and introduction
+   04. Layout and panels
+   05. Forms
+   06. Location autocomplete
+   07. Trip controls
+   08. Route comparison
+   09. Interactive map
+   10. Weather timeline
+   11. Checkpoint risk corridor
+   12. Legend and notices
+   13. Accessibility
+   14. Responsive design
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   01. DESIGN TOKENS
+   ------------------------------------------------------------ */
+
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+
+  --bg-page: #081928;
+  --bg-panel: #102638;
+  --bg-input: #091b2b;
+  --bg-card: #132e41;
+  --bg-card-active: #17404c;
+
+  --border-default: #254356;
+  --border-input: #315064;
+  --border-accent: #65ded0;
+
+  --text-primary: #e8f2f5;
+  --text-secondary: #b2cbd5;
+  --text-muted: #8ba7b5;
+
+  --accent: #62d6c8;
+  --accent-hover: #80e6db;
+  --accent-foreground: #092132;
+
+  --risk-low: #2dc78b;
+  --risk-moderate: #f0c75e;
+  --risk-high: #f18b42;
+  --risk-severe: #ef5461;
+  --risk-no-travel: #ab57db;
+  --risk-unavailable: #64748b;
+
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 15px;
+
+  --shadow-dropdown:
+    0 14px 35px rgba(0, 0, 0, 0.4);
+
+  color: var(--text-primary);
+  background: var(--bg-page);
+}
+
+
+/* ------------------------------------------------------------
+   02. GLOBAL STYLES
+   ------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+
+  background: var(--bg-page);
+  color: var(--text-primary);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+
+/* ------------------------------------------------------------
+   03. HEADER AND INTRODUCTION
+   ------------------------------------------------------------ */
+
+main {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  min-height: 74px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.brand {
+  color: #71e1d5;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+.tag,
+.eyebrow {
+  color: #91b6c4;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.intro {
+  padding: 34px 0 28px;
+}
+
+.intro h1 {
+  margin: 10px 0;
+
+  font-size: clamp(30px, 3.5vw, 52px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+}
+
+.intro h1 em {
+  color: #68d6cb;
+  font-style: normal;
+}
+
+.intro p {
+  max-width: 700px;
+  margin: 12px 0 0;
+
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.hint,
+.small {
+  color: var(--text-muted);
+}
+
+
+/* ------------------------------------------------------------
+   04. LAYOUT AND PANELS
+   ------------------------------------------------------------ */
+
+.layout {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  align-items: start;
+  gap: 22px;
+}
+
+.panel,
+.right {
+  min-width: 0;
+}
+
+.panel,
+.mapTop,
+.heatPanel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+}
+
+.panel,
+.heatPanel {
+  padding: 22px;
+}
+
+.panel h2,
+.mapTop h2,
+.heatPanel h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.sectionHint {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+/* ------------------------------------------------------------
+   05. FORMS
+   ------------------------------------------------------------ */
+
+form {
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin: 16px 0;
+
+  color: #9cb9c7;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.8px;
+}
+
+input:not([type="range"]):not([type="checkbox"]),
+select {
+  display: block;
+
+  width: 100%;
+  min-height: 44px;
+  margin-top: 7px;
+  padding: 11px 12px;
+
+  background: var(--bg-input);
+  color: var(--text-primary);
+
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-sm);
+
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: normal;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+input::placeholder {
+  color: #819eac;
+  opacity: 1;
+}
+
+input:hover,
+select:hover {
+  border-color: #427084;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+input[type="datetime-local"] {
+  color-scheme: dark;
+}
+
+select {
+  cursor: pointer;
+}
+
+.fieldHelp {
+  display: block;
+  margin-top: 6px;
+
+  color: #9ab3bf;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.5;
+}
+
+
+/* ------------------------------------------------------------
+   06. LIVE LOCATION AUTOCOMPLETE
+   ------------------------------------------------------------ */
+
+.locationFields {
+  position: relative;
+}
+
+.locationAutocomplete {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 14px;
+}
+
+.locationAutocomplete > label {
+  display: block;
+  margin: 0 0 7px;
+
+  color: #9cb9c7;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.8px;
+}
+
+.locationAutocomplete > input {
+  width: 100%;
+  margin-top: 0;
+}
+
+.locationAutocomplete > input[aria-expanded="true"] {
+  border-color: var(--accent);
+}
+
+.locationHint {
+  padding: 7px 2px 2px;
+
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.locationSuggestions {
+  position: absolute;
+  z-index: 2000;
+
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+
+  max-height: 270px;
+  margin: 0;
+  padding: 5px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  list-style: none;
+  background: #172b40;
+
+  border: 1px solid #36566b;
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-dropdown);
+  scrollbar-width: thin;
+}
+
+.locationSuggestions li {
+  margin: 0;
+  padding: 0;
+}
+
+form .locationSuggestions .locationSuggestion {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 42px;
+  margin: 0;
+  padding: 10px;
+
+  background: transparent;
+  color: var(--text-primary);
+
+  border: 0;
+  border-radius: 6px;
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.locationSuggestion > span:first-child {
+  flex-shrink: 0;
+  color: var(--accent);
+  font-size: 16px;
+}
+
+form .locationSuggestions .locationSuggestion:hover,
+form .locationSuggestions .locationSuggestion.active,
+form .locationSuggestions .locationSuggestion:focus-visible {
+  background: #25465b;
+  color: #ffffff;
+}
+
+
+/* ------------------------------------------------------------
+   07. TRIP CONTROLS
+   ------------------------------------------------------------ */
+
+form button[type="submit"],
+form .analyzeButton {
+  display: block;
+
+  width: 100%;
+  min-height: 46px;
+  margin-top: 16px;
+  padding: 12px 16px;
+
+  background: var(--accent);
+  color: var(--accent-foreground);
+
+  border: 0;
+  border-radius: 9px;
+
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+
+form button[type="submit"]:not(:disabled):hover,
+form .analyzeButton:not(:disabled):hover {
+  background: var(--accent-hover);
+}
+
+form .swapButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  width: 100%;
+  min-height: 34px;
+  margin: 0 0 16px;
+  padding: 7px 12px;
+
+  background: #17394a;
+  color: #a5eee4;
+
+  border: 1px solid #427084;
+  border-radius: 8px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+form .swapButton:hover {
+  background: #225064;
+  border-color: var(--accent);
+}
+
+.loadingHint {
+  margin: 12px 0 0;
+
+  color: #b8d5de;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* ------------------------------------------------------------
+   08. ROUTE COMPARISON
+   ------------------------------------------------------------ */
+
+.subhead {
+  margin: 26px 0 8px !important;
+}
+
+.routeCard {
+  display: block;
+
+  width: 100%;
+  margin-top: 10px;
+  padding: 15px;
+
+  background: var(--bg-card);
+  color: var(--text-primary);
+
+  border: 1px solid #2c4c5f;
+  border-radius: var(--radius-md);
+
+  text-align: left;
+
+  transition:
+    background 150ms ease,
+    border-color 150ms ease;
+}
+
+.routeCard:hover {
+  background: #19374a;
+  border-color: #6bbcb6;
+}
+
+.routeCard.active {
+  background: var(--bg-card-active);
+  border-color: var(--border-accent);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.routeTitle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+
+  color: #b6d4de;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.pill {
+  margin-left: auto;
+  padding: 4px 7px;
+
+  background: #154d49;
+  color: #80f3db;
+
+  border-radius: 5px;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.riskPill {
+  margin-left: auto;
+  padding: 4px 7px;
+
+  background: #572c3c;
+  color: #ffb6c3;
+
+  border-radius: 5px;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.routeNumbers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin: 13px 0;
+}
+
+.routeNumbers b {
+  color: #f1fbfd;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.routeMetrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.routeMetrics span {
+  padding: 6px 8px;
+
+  border: 1px solid #345365;
+  border-radius: 6px;
+}
+
+.routeMetrics b {
+  color: var(--text-primary);
+}
+
+.selectedHint {
+  display: block;
+  margin-top: 10px;
+
+  color: #77e4d7;
+  font-size: 11px;
+}
+
+.blocked,
+.error {
+  color: #ff9a9a;
+}
+
+.blocked {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.resultStatus {
+  margin-top: 18px;
+  padding: 10px 12px;
+
+  background: #123241;
+  color: #a8ddd6;
+
+  border: 1px solid #305c6a;
+  border-radius: 8px;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* ------------------------------------------------------------
+   09. INTERACTIVE MAP
+   ------------------------------------------------------------ */
+
+.mapTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 15px 20px;
+}
+
+.mapTop span {
+  color: #a6c3ce;
+  font-size: 12px;
+  text-align: right;
+}
+
+.mapBox {
+  position: relative;
+
+  width: 100%;
+  height: 470px;
+  min-height: 350px;
+
+  overflow: hidden;
+
+  background: #193449;
+  border: 1px solid #345267;
+  border-radius: 14px;
+}
+
+.mapBox .leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  font-family: inherit;
+}
+
+.mapBox .leaflet-control-zoom a {
+  color: #20384a;
+}
+
+.mapBox .leaflet-popup-content-wrapper {
+  background: #ffffff;
+  color: #172b40;
+  border-radius: 10px;
+}
+
+.mapBox .leaflet-popup-content {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.mapBox .leaflet-popup-tip {
+  background: #ffffff;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  padding: 30px;
+
+  text-align: center;
+}
+
+.placeholder b {
+  font-size: 18px;
+}
+
+.placeholder p {
+  max-width: 320px;
+  margin-top: 10px;
+
+  color: #a3bac6;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.compass {
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-size: 68px;
+}
+
+
+/* ------------------------------------------------------------
+   10. WEATHER TIMELINE
+   ------------------------------------------------------------ */
+
+.heatHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.heatHeading h2 {
+  margin-bottom: 5px;
+}
+
+.heatHeading p {
+  margin: 0 0 18px;
+
+  color: #a3bdc8;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.forecastHour,
+.heatHeading strong {
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.quickHours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin: 4px 0 16px;
+}
+
+.quickHours button {
+  min-width: 54px;
+  min-height: 34px;
+  padding: 7px 12px;
+
+  background: #112f42;
+  color: #b9d4df;
+
+  border: 1px solid #36576b;
+  border-radius: 7px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.quickHours button:hover {
+  background: #1c4351;
+  border-color: #69dace;
+}
+
+.quickHours button.current,
+.quickHours button[aria-pressed="true"] {
+  background: #1c4c54;
+  color: #b6fff1;
+  border-color: #69dace;
+}
+
+.forecastSlider {
+  width: 100%;
+}
+
+.heatPanel input[type="range"] {
+  display: block;
+
+  width: 100%;
+  min-height: 28px;
+  margin: 6px 0;
+
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+
+  margin-top: 4px;
+
+  color: #a3bfcb;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.timeline span:last-child {
+  text-align: right;
+}
+
+.heatToggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 16px 0 0;
+
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: normal;
+  line-height: 1.5;
+
+  cursor: pointer;
+}
+
+.heatToggle input[type="checkbox"] {
+  flex-shrink: 0;
+
+  width: 16px;
+  height: 16px;
+  margin: 0;
+
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+
+/* ------------------------------------------------------------
+   11. CHECKPOINT RISK CORRIDOR
+   ------------------------------------------------------------ */
+
+.checkpointSection {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.checkpointHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-bottom: 10px;
+
+  color: #a9c5d0;
+  font-size: 12px;
+}
+
+.checkpointHeader strong {
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+/*
+ * Allow horizontal scrolling for routes with many
+ * checkpoints. Short routes use the available width.
+ */
+
+.checkpointScroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 5px;
+
+  scrollbar-width: thin;
+  scrollbar-color: #42677b #102638;
+}
+
+.heatStrip {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+
+  width: 100%;
+  min-height: 55px;
+  margin: 0;
+}
+
+/*
+ * Each checkpoint receives an equal-width block.
+ * This is a checkpoint visualization, not a
+ * distance-proportional road segment chart.
+ */
+
+.heatCheckpoint {
+  flex: 1 0 0;
+  min-width: 36px;
+
+  padding: 0;
+  text-align: center;
+  cursor: help;
+}
+
+.heatCheckpointColor {
+  width: 100%;
+  height: 28px;
+
+  border-radius: 4px;
+
+  transition:
+    filter 150ms ease,
+    transform 150ms ease;
+}
+
+.heatCheckpoint:hover .heatCheckpointColor,
+.heatCheckpoint:focus-visible .heatCheckpointColor {
+  filter: brightness(1.2);
+}
+
+.heatCheckpointMile {
+  display: block;
+  margin-top: 7px;
+
+  color: #a9c5d0;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.mileUnit {
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.checkpointHelp {
+  margin: 7px 0 0;
+
+  color: #9bb4bf;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.emptyCheckpoints {
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+
+/* ------------------------------------------------------------
+   12. LEGEND AND NOTICES
+   ------------------------------------------------------------ */
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 14px;
+
+  margin-top: 16px;
+
+  color: #bfd3db;
+  font-size: 11px;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.legend i {
+  display: inline-block;
+  flex-shrink: 0;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+}
+
+.notice {
+  margin: 14px 0 0;
+
+  color: #9bb4bf;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+footer {
+  padding: 28px 0;
+
+  color: #91adba;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+
+/* ------------------------------------------------------------
+   13. ACCESSIBILITY
+   ------------------------------------------------------------ */
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+.heatCheckpoint:focus-visible,
+.checkpointScroll:focus-visible {
+  outline: 3px solid #8cf5e8;
+  outline-offset: 3px;
+}
+
+.locationSuggestions button:focus-visible {
+  outline-offset: -2px;
+}
+
+[aria-busy="true"] {
+  cursor: progress;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   14. RESPONSIVE DESIGN
+   ------------------------------------------------------------ */
+
+/* Medium desktop */
+
+@media (max-width: 1100px) {
+  main {
+    padding: 0 22px;
+  }
+
+  .layout {
+    grid-template-columns: 310px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .panel,
+  .heatPanel {
+    padding: 18px;
+  }
+
+  .mapBox {
+    height: 430px;
+  }
+}
+
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  main {
+    padding: 0 18px;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mapBox {
+    height: 450px;
+  }
+
+  .intro {
+    padding: 28px 0 22px;
+  }
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  main {
+    padding: 0 12px;
+  }
+
+  header {
+    min-height: 64px;
+  }
+
+  .brand {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.4px;
+  }
+
+  .intro {
+    padding: 24px 0 20px;
+  }
+
+  .intro h1 {
+    font-size: clamp(27px, 7vw, 36px);
+    letter-spacing: -0.8px;
+  }
+
+  .intro p {
+    font-size: 13px;
+  }
+
+  .layout {
+    gap: 14px;
+  }
+
+  .panel,
+  .heatPanel {
+    padding: 16px;
+  }
+
+  .mapTop {
+    padding: 13px 15px;
+  }
+
+  .mapTop h2 {
+    font-size: 15px;
+  }
+
+  .mapTop span {
+    font-size: 10px;
+  }
+
+  .mapBox {
+    height: 370px;
+  }
+
+  .routeNumbers b {
+    font-size: 21px;
+  }
+
+  .quickHours {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .quickHours button {
+    min-width: 0;
+    padding: 9px 4px;
+    font-size: 11px;
+  }
+
+  .heatHeading h2 {
+    font-size: 16px;
+  }
+
+  .forecastHour {
+    font-size: 15px;
+  }
+
+  .heatCheckpoint {
+    min-width: 40px;
+  }
+
+  .heatCheckpointColor {
+    height: 25px;
+  }
+
+  .heatCheckpointMile {
+    font-size: 10px;
+  }
+
+  .mileUnit {
+    font-size: 9px;
+  }
+
+  .locationSuggestions {
+    max-height: 230px;
+  }
+}
+
+
+/* Small mobile */
+
+@media (max-width: 380px) {
+  .tag {
+    max-width: 115px;
+  }
+
+  .mapBox {
+    height: 330px;
+  }
+
+  .routeCard {
+    padding: 12px;
+  }
+
+  .heatPanel {
+    padding: 13px;
+  }
+
+  .checkpointHeader {
+    font-size: 11px;
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://routewise-weather-routing.onrender.com/api/:path*"
+    }
+  ]
+}

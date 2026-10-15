@@ -1,4 +1,6 @@
 import json
+import logging
+logger = logging.getLogger(__name__)
 from datetime import datetime,timezone,timedelta
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -23,7 +25,17 @@ def plan(request):
     except (ValueError,KeyError,TypeError,json.JSONDecodeError) as exc:
         return JsonResponse({"error":str(exc)},status=400)
     except Exception:
-        return JsonResponse({"error":"Routing or weather provider unavailable. Try again shortly."},status=502)
+        logger.exception("Route planning failed")
+
+        return JsonResponse(
+            {
+                "error": (
+                    "Routing or weather provider unavailable. "
+                    "Try again shortly."
+                )
+            },
+            status=502,
+        )
 
 
 import os

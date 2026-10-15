@@ -32,20 +32,31 @@ def fetch(url, params, timeout=22):
 
 
 def geocode(query):
-    """Convert a city or address into latitude and longitude."""
+    """Convert a US city or address into latitude and longitude."""
+    api_key = os.environ.get("GEOAPIFY_API_KEY")
+
+    if not api_key:
+        raise RuntimeError("GEOAPIFY_API_KEY is not configured.")
+
     data = fetch(
-        GEOCODE_URL,
+        "https://api.geoapify.com/v1/geocode/search",
         {
-            "q": query,
+            "text": query,
             "format": "json",
             "limit": 1,
+            "filter": "countrycode:us",
+            "apiKey": api_key,
         },
     )
 
-    if not data:
+    results = data.get("results", [])
+
+    if not results:
         raise ValueError(f"Could not locate: {query}")
 
-    return float(data[0]["lat"]), float(data[0]["lon"])
+    location = results[0]
+
+    return float(location["lat"]), float(location["lon"])
 
 
 def graphhopper_routes(start, end):
